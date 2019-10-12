@@ -1,4 +1,5 @@
-const { GraphQLServer } = require('graphql-yoga');
+// const { GraphQLServer } = require('graphql-yoga');
+import {GraphQLServer} from 'graphql-yoga'
 
 const typeDefs = `
     type Query {
@@ -28,7 +29,7 @@ const resolvers = {
         inStock(){
             return true
         },
-        a = () => {
+        a: () => {
             return 'aaa';
         }
     }
