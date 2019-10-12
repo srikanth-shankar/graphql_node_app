@@ -1,10 +1,17 @@
 // const { GraphQLServer } = require('graphql-yoga');
 import {GraphQLServer} from 'graphql-yoga'
 
+const users = [
+    {id:'aaa', name: 'sr1', email: 'sr1@.com'},
+    {id:'bbb', name: 'sr2', email: 'sr2@.com'},
+    {id:'ccc', name: 'sr3', email: 'sri3@.com'},
+]
+
 const typeDefs = `
     type Query {
         me: User!,
         post: Post!
+        users: [User!]!        
     }
 
     type User {
@@ -31,7 +38,26 @@ const resolvers = {
         },
         post: ()=>{
             return {id: '092', title: 'Title1', body: 'Body1', published: true}
-        }
+        },
+        users: () =>{
+            return users;
+        },
+        /*greeting: (parent, args, ctx, info) =>{
+            if(args.name) {
+                return `hi there ${args.name}`;
+            } else {
+                return `hi there`;
+            }
+        },
+        add: (parent,args, ctx, info)=>{
+            if(args.numbers.length === 0){
+                return 0;
+            } else {
+                return args.numbers.reduce((acctr, currVal) =>{
+                    return acctr+currVal;
+                })
+            }
+        }*/
     }
 }
 
