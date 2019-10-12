@@ -3,34 +3,34 @@ import {GraphQLServer} from 'graphql-yoga'
 
 const typeDefs = `
     type Query {
-        title: String!
-        price: Float!
-        releaseYear: Int
-        rating: Float
-        inStock: Boolean!,
-        a: String!
+        me: User!,
+        post: Post!
+    }
+
+    type User {
+        id: ID!,
+        name: String!,
+        email: String!,
+        age: Int
+    }
+
+    type Post {
+        id: ID!,
+        title: String!,
+        body: String!,
+        published: Boolean!
     }
 `
 
 const resolvers = {
     Query: {
-        title() {
-            return 'Book'
+        me: ()=>{
+            return {
+                id: '1111', name:'sri', age:32, email:'sri@sri.com'
+            }
         },
-        price(){
-            return 12.99
-        },
-        releaseYear(){
-            return 2000
-        },
-        rating(){
-            return null
-        },
-        inStock(){
-            return true
-        },
-        a: () => {
-            return 'aaa';
+        post: ()=>{
+            return {id: '092', title: 'Title1', body: 'Body1', published: true}
         }
     }
 }
