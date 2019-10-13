@@ -2,15 +2,21 @@
 import {GraphQLServer} from 'graphql-yoga'
 
 const users = [
-    {id:'aaa', name: 'sr1', email: 'sr1@.com'},
-    {id:'bbb', name: 'sr2', email: 'sr2@.com'},
-    {id:'ccc', name: 'sr3', email: 'sri3@.com'},
+    {id:'userId1', name: 'sr1', email: 'sri1@.com'},
+    {id:'userId2', name: 'sr2', email: 'sri2@.com'},
+    {id:'userId3', name: 'sr3', email: 'sri3@.com'},
+]
+
+const posts = [
+    {id:'postId1', title: 'postTitle1', body: 'postBody1', published: true, author: 'userId1'},
+    {id:'postId2', title: 'postTitle2', body: 'postBody2', published: false, author: 'userId2'},
+    {id:'postId3', title: 'postTitle3', body: 'postBody3', published: true, author: 'userId3'},
 ]
 
 const typeDefs = `
     type Query {
         me: User!,
-        post: Post!
+        posts: [Post!]!
         users: [User!]!        
     }
 
@@ -25,7 +31,8 @@ const typeDefs = `
         id: ID!,
         title: String!,
         body: String!,
-        published: Boolean!
+        published: Boolean!,
+        author: User!
     }
 `
 
@@ -36,28 +43,19 @@ const resolvers = {
                 id: '1111', name:'sri', age:32, email:'sri@sri.com'
             }
         },
-        post: ()=>{
-            return {id: '092', title: 'Title1', body: 'Body1', published: true}
+        posts: ()=>{
+            return posts;
         },
         users: () =>{
             return users;
         },
-        /*greeting: (parent, args, ctx, info) =>{
-            if(args.name) {
-                return `hi there ${args.name}`;
-            } else {
-                return `hi there`;
-            }
-        },
-        add: (parent,args, ctx, info)=>{
-            if(args.numbers.length === 0){
-                return 0;
-            } else {
-                return args.numbers.reduce((acctr, currVal) =>{
-                    return acctr+currVal;
-                })
-            }
-        }*/
+    },
+    Post: {
+        author: (parent, args, ctx, info)=>{
+            return users.find((user)=>{
+                return user.id === parent.author
+            })
+        }
     }
 }
 
