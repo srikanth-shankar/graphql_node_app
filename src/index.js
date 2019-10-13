@@ -10,7 +10,7 @@ const users = [
 const posts = [
     {id:'postId1', title: 'postTitle1', body: 'postBody1', published: true, author: 'userId1'},
     {id:'postId2', title: 'postTitle2', body: 'postBody2', published: false, author: 'userId2'},
-    {id:'postId3', title: 'postTitle3', body: 'postBody3', published: true, author: 'userId3'},
+    {id:'postId3', title: 'postTitle3', body: 'postBody3', published: true, author: 'userId1'},
 ]
 
 const typeDefs = `
@@ -24,7 +24,8 @@ const typeDefs = `
         id: ID!,
         name: String!,
         email: String!,
-        age: Int
+        age: Int,
+        posts: [Post!]!
     }
 
     type Post {
@@ -55,6 +56,11 @@ const resolvers = {
             return users.find((user)=>{
                 return user.id === parent.author
             })
+        }
+    },
+    User: {
+        posts: (parent, args, ctx, info)=>{
+            return posts.filter(x=>x.author === parent.id);
         }
     }
 }
